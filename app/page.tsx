@@ -20,10 +20,12 @@ export default async function HomePage() {
           </h1>
         </div>
 
-        <Button size="lg" className="gap-2 text-base" onClick={signInWithGithub}>
-          <Github />
-          Get started with GitHub
-        </Button>
+        <form action={signInWithGithub}>
+          <Button type="submit" size="lg" className="gap-2 text-base">
+            <Github />
+            Get started with GitHub
+          </Button>
+        </form>
       </div>
     </div>
   )
