@@ -30,7 +30,11 @@ export default async function DashboardPage() {
                     </h1>
                 </div>
 
-                <Button variant="outline" onClick={signOut}>Sign out</Button>
+                <form action={signOut}>
+                    <Button variant="outline" type="submit">
+                        Sign out
+                    </Button>
+                </form>
             </div>
         </div>
     )
