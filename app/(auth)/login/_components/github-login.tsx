@@ -24,13 +24,17 @@ export default function GithubLogin({ user }: GithubLoginProps) {
     }, [supabase])
 
     async function handleGithubLogin() {
-        await supabase.auth.signInWithOAuth({
+        const { error } = await supabase.auth.signInWithOAuth({
             provider: "github",
             options: {
                 redirectTo: `${window.location.origin}`,
                 skipBrowserRedirect: false
             }
         })
+
+        if (error) {
+            console.error("GitHub login failed:", error);
+        }
     }
 
     return <div>
