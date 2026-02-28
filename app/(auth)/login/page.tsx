@@ -20,10 +20,12 @@ export default async function LoginPage() {
                     </h1>
                 </div>
 
-                <Button size="lg" className="gap-2" onClick={signInWithGithub}>
-                    <Github />
-                    Login with GitHub
-                </Button>
+                <form action={signInWithGithub}>
+                    <Button size="lg" type="submit" className="gap-2">
+                        <Github />
+                        Login with GitHub
+                    </Button>
+                </form>
             </div>
         </div>
     )
