@@ -6,8 +6,11 @@ import * as Sentry from "@sentry/nextjs";
 
 const isProd = process.env.NODE_ENV === "production";
 
+if (isProd && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  console.warn("Sentry DSN is not configured. Set SENTRY_DSN to enable error tracking.");
+}
+
 const dsn =
-  process.env.SENTRY_DSN ??
   process.env.NEXT_PUBLIC_SENTRY_DSN ??
   undefined;
 
@@ -37,7 +40,7 @@ Sentry.init({
   // Enable logs to be sent to Sentry
   enableLogs,
 
-  // Enable sending user PII (Personally Identifiable Information)
+  // Only send PII in non-production environments to protect user privacy.
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
   sendDefaultPii,
 });
