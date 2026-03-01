@@ -1,5 +1,6 @@
 "use server"
 
+import { encryptPat } from "@/lib/pat-crypto"
 import { createSupabaseServerClient } from "@/lib/supabase/server-client"
 
 type VerifyPatResult =
@@ -45,10 +46,11 @@ export async function verifyAndSavePat(token: string): Promise<VerifyPatResult> 
             }
         }
 
-        // Store the encrypted PAT in user metadata
+        // Encrypt the PAT server-side before storing in user metadata
+        const encryptedPat = encryptPat(token)
         const { error: updateError } = await supabase.auth.updateUser({
             data: {
-                github_pat: token,
+                github_pat: encryptedPat,
                 github_pat_verified: true,
             },
         })
