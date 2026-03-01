@@ -50,6 +50,18 @@ export function decryptPat(ciphertext: string): string {
     const authTag = Buffer.from(authTagBase64, "base64")
     const encrypted = Buffer.from(encryptedBase64, "base64")
 
+    if (iv.length !== IV_LENGTH) {
+        throw new Error(
+            `Invalid encrypted PAT format: IV must be ${IV_LENGTH} bytes, got ${iv.length}`
+        )
+    }
+
+    // GCM auth tag length must be between 4 and 16 bytes; encryptPat uses the default 16 bytes.
+    if (authTag.length !== 16) {
+        throw new Error(
+            `Invalid encrypted PAT format: auth tag must be 16 bytes, got ${authTag.length}`
+        )
+    }
     const decipher = createDecipheriv(ALGORITHM, key, iv)
     decipher.setAuthTag(authTag)
 
