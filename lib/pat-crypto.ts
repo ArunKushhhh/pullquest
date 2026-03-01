@@ -14,8 +14,11 @@ function getEncryptionKey(): Buffer {
     if (!secret) {
         throw new Error("PAT_ENCRYPTION_KEY environment variable is not set")
     }
-    // Use a configurable salt for key derivation (set PAT_ENCRYPTION_SALT in env for better security)
-    const salt = process.env.PAT_ENCRYPTION_SALT ?? "pullquest-pat-encryption-salt"
+    // Use a required salt for key derivation; must be set via PAT_ENCRYPTION_SALT
+    const salt = process.env.PAT_ENCRYPTION_SALT
+    if (!salt) {
+        throw new Error("PAT_ENCRYPTION_SALT environment variable is not set")
+    }
     cachedKey = scryptSync(secret, salt, KEY_LENGTH)
     return cachedKey
 }
