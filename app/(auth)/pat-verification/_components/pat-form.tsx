@@ -1,8 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { useMutation } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { verifyAndSavePat } from "@/actions/auth/verify-pat"
@@ -11,22 +10,8 @@ import { Loader2 } from "lucide-react"
 
 export default function PatForm() {
     const [token, setToken] = useState("")
+    const [isPending, startTransition] = useTransition()
     const router = useRouter()
-
-    const verifyMutation = useMutation({
-        mutationFn: (pat: string) => verifyAndSavePat(pat),
-        onSuccess: (result) => {
-            if (result.success) {
-                toast.success("Token verified successfully")
-                router.push("/dashboard")
-            } else {
-                toast.error(result.error ?? "Invalid Personal Access Token")
-            }
-        },
-        onError: () => {
-            toast.error("Something went wrong. Please try again.")
-        },
-    })
 
     function handleVerify() {
         if (!token.trim()) {
@@ -34,7 +19,19 @@ export default function PatForm() {
             return
         }
 
-        verifyMutation.mutate(token)
+        startTransition(async () => {
+            try {
+                const result = await verifyAndSavePat(token)
+                if (result.success) {
+                    toast.success("Token verified successfully")
+                    router.push("/dashboard")
+                } else {
+                    toast.error(result.error ?? "Invalid Personal Access Token")
+                }
+            } catch {
+                toast.error("Something went wrong. Please try again.")
+            }
+        })
     }
 
     function handleSkip() {
@@ -56,7 +53,7 @@ export default function PatForm() {
                     placeholder="github_pat_..."
                     value={token}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setToken(e.target.value)}
-                    disabled={verifyMutation.isPending}
+                    disabled={isPending}
                 />
                 <p className="text-xs text-muted-foreground">
                     Generate a fine-grained token from{" "}
@@ -74,9 +71,9 @@ export default function PatForm() {
             <div className="flex flex-col gap-2">
                 <Button
                     onClick={handleVerify}
-                    disabled={verifyMutation.isPending || !token.trim()}
+                    disabled={isPending || !token.trim()}
                 >
-                    {verifyMutation.isPending ? (
+                    {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Verifying...
@@ -88,7 +85,7 @@ export default function PatForm() {
                 <Button
                     variant="ghost"
                     onClick={handleSkip}
-                    disabled={verifyMutation.isPending}
+                    disabled={isPending}
                 >
                     Skip for now
                 </Button>
