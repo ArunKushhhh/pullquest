@@ -1,6 +1,5 @@
 import { getUser } from "@/actions/auth/get-user"
-import { signOut } from "@/actions/auth/sign-out"
-import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { redirect } from "next/navigation"
 
 export default async function DashboardPage() {
@@ -29,12 +28,7 @@ export default async function DashboardPage() {
                         {metadata?.user_name ?? "User"}
                     </h1>
                 </div>
-
-                <form action={signOut}>
-                    <Button variant="outline" type="submit">
-                        Sign out
-                    </Button>
-                </form>
+                <ThemeToggle />
             </div>
         </div>
     )
