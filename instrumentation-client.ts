@@ -4,16 +4,23 @@
 
 import * as Sentry from "@sentry/nextjs";
 
+const isProd = process.env.NODE_ENV === "production";
+
+if (isProd && !process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  console.warn("Sentry DSN is not configured. Set NEXT_PUBLIC_SENTRY_DSN to enable error tracking.");
+}
+
 Sentry.init({
-  dsn: "https://163dced697758085021b47cb569f3677@o4510966191423488.ingest.us.sentry.io/4510966301523968",
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 
   // Add optional integrations for additional features
   integrations: [Sentry.replayIntegration()],
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
-  // Enable logs to be sent to Sentry
-  enableLogs: true,
+  // Use a lower sample rate in production to reduce volume and cost.
+  tracesSampleRate: isProd ? 0.1 : 1.0,
+
+  // Only enable log forwarding in non-production environments.
+  enableLogs: !isProd,
 
   // Define how likely Replay events are sampled.
   // This sets the sample rate to be 10%. You may want this to be 100% while
@@ -23,9 +30,9 @@ Sentry.init({
   // Define how likely Replay events are sampled when an error occurs.
   replaysOnErrorSampleRate: 1.0,
 
-  // Enable sending user PII (Personally Identifiable Information)
+  // Only send PII in non-production environments to protect user privacy.
   // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-  sendDefaultPii: true,
+  sendDefaultPii: !isProd,
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
