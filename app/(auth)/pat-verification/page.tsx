@@ -9,6 +9,9 @@ export default async function PatVerificationPage() {
         redirect("/login")
     }
 
+    if (user.user_metadata?.github_pat_verified === true) {
+        redirect("/dashboard")
+    }
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
             <div className="flex w-full max-w-md flex-col gap-8 px-4">
