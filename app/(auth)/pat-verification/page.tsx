@@ -2,7 +2,7 @@ import { getUser } from "@/actions/auth/get-user"
 import { redirect } from "next/navigation"
 import PatForm from "./_components/pat-form"
 
-export default async function OnboardingPage() {
+export default async function PatVerificationPage() {
     const user = await getUser()
 
     if (!user) {
