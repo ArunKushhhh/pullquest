@@ -1,0 +1,99 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useMutation } from "@tanstack/react-query"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { verifyAndSavePat } from "@/actions/auth/verify-pat"
+import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
+
+export default function PatForm() {
+    const [token, setToken] = useState("")
+    const router = useRouter()
+
+    const verifyMutation = useMutation({
+        mutationFn: (pat: string) => verifyAndSavePat(pat),
+        onSuccess: (result) => {
+            if (result.success) {
+                toast.success("Token verified successfully")
+                router.push("/dashboard")
+            } else {
+                toast.error(result.error ?? "Invalid Personal Access Token")
+            }
+        },
+        onError: () => {
+            toast.error("Something went wrong. Please try again.")
+        },
+    })
+
+    function handleVerify() {
+        if (!token.trim()) {
+            toast.error("Please enter a personal access token")
+            return
+        }
+
+        verifyMutation.mutate(token)
+    }
+
+    function handleSkip() {
+        router.push("/dashboard")
+    }
+
+    return (
+        <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+                <label
+                    htmlFor="pat-token"
+                    className="text-sm font-medium text-foreground"
+                >
+                    Personal Access Token
+                </label>
+                <Input
+                    id="pat-token"
+                    type="password"
+                    placeholder="github_pat_..."
+                    value={token}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setToken(e.target.value)}
+                    disabled={verifyMutation.isPending}
+                />
+                <p className="text-xs text-muted-foreground">
+                    Generate a fine-grained token from{" "}
+                    <a
+                        href="https://github.com/settings/tokens?type=beta"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-2 hover:text-foreground"
+                    >
+                        GitHub Settings
+                    </a>
+                </p>
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <Button
+                    onClick={handleVerify}
+                    disabled={verifyMutation.isPending || !token.trim()}
+                >
+                    {verifyMutation.isPending ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Verifying...
+                        </>
+                    ) : (
+                        "Verify Token"
+                    )}
+                </Button>
+                <Button
+                    variant="ghost"
+                    onClick={handleSkip}
+                    disabled={verifyMutation.isPending}
+                >
+                    Skip for now
+                </Button>
+            </div>
+        </div>
+    )
+}
+
