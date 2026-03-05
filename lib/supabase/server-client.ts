@@ -28,7 +28,7 @@ export async function createSupabaseServerClient() {
                     try {
                         cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
                     } catch {
-                        console.error("Failed to set Supabase auth cookies");
+                        throw new Error("Failed to set Supabase auth cookies");
                     }
                 },
             },
