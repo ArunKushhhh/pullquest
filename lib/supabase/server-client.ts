@@ -7,15 +7,15 @@ function getEnvVar() {
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY")
+        throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
     }
 
-    return { supabaseUrl, supabaseAnonKey }
+    return { supabaseUrl, supabaseAnonKey };
 }
 
 export async function createSupabaseServerClient() {
-    const { supabaseUrl, supabaseAnonKey } = getEnvVar()
-    const cookieStore = await cookies()
+    const { supabaseUrl, supabaseAnonKey } = getEnvVar();
+    const cookieStore = await cookies();
 
     return createServerClient<Database>(
         supabaseUrl,
@@ -23,16 +23,16 @@ export async function createSupabaseServerClient() {
         {
             cookies: {
                 getAll() {
-                    return cookieStore.getAll()
+                    return cookieStore.getAll();
                 },
                 setAll(cookiesToSet) {
                     try {
-                        cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
+                        cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
                     } catch {
                         throw new Error("Failed to set Supabase auth cookies");
                     }
                 },
             },
         }
-    )
+    );
 }

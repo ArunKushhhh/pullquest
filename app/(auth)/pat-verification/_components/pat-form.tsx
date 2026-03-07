@@ -1,44 +1,44 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useMutation } from "@tanstack/react-query"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { verifyAndSavePat } from "@/actions/auth/verify-pat"
-import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { verifyAndSavePat } from "@/actions/auth/verify-pat";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export default function PatForm() {
-    const [token, setToken] = useState("")
-    const router = useRouter()
+    const [token, setToken] = useState("");
+    const router = useRouter();
 
     const verifyMutation = useMutation({
         mutationFn: (pat: string) => verifyAndSavePat(pat),
         onSuccess: (result) => {
             if (result.success) {
-                toast.success("Token verified successfully")
-                router.push("/dashboard")
+                toast.success("Token verified successfully");
+                router.push("/dashboard");
             } else {
-                toast.error(result.error ?? "Invalid Personal Access Token")
+                toast.error(result.error ?? "Invalid Personal Access Token");
             }
         },
         onError: () => {
-            toast.error("Something went wrong. Please try again.")
+            toast.error("Something went wrong. Please try again.");
         },
-    })
+    });
 
     function handleVerify() {
         if (!token.trim()) {
-            toast.error("Please enter a personal access token")
-            return
+            toast.error("Please enter a personal access token");
+            return;
         }
 
-        verifyMutation.mutate(token)
+        verifyMutation.mutate(token);
     }
 
     function handleSkip() {
-        router.push("/dashboard")
+        router.push("/dashboard");
     }
 
     return (
@@ -94,6 +94,6 @@ export default function PatForm() {
                 </Button>
             </div>
         </div>
-    )
+    );
 }
 

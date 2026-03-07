@@ -1,15 +1,15 @@
-import { getUser } from "@/actions/auth/get-user"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { redirect } from "next/navigation"
+import { getUser } from "@/actions/auth/get-user";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-    const user = await getUser()
+    const user = await getUser();
 
     if (!user) {
-        redirect("/login")
+        redirect("/login");
     }
 
-    const metadata = user.user_metadata
+    const metadata = user.user_metadata;
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
@@ -31,5 +31,5 @@ export default async function DashboardPage() {
                 <ThemeToggle />
             </div>
         </div>
-    )
+    );
 }

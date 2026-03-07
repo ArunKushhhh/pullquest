@@ -1,16 +1,16 @@
-import { getUser } from "@/actions/auth/get-user"
-import { redirect } from "next/navigation"
-import PatForm from "./_components/pat-form"
+import { getUser } from "@/actions/auth/get-user";
+import { redirect } from "next/navigation";
+import PatForm from "./_components/pat-form";
 
 export default async function PatVerificationPage() {
-    const user = await getUser()
+    const user = await getUser();
 
     if (!user) {
-        redirect("/login")
+        redirect("/login");
     }
 
     if (user.user_metadata?.github_pat_verified === true) {
-        redirect("/dashboard")
+        redirect("/dashboard");
     }
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-background">
@@ -29,5 +29,5 @@ export default async function PatVerificationPage() {
                 <PatForm />
             </div>
         </div>
-    )
+    );
 }
