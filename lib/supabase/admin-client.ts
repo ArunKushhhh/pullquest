@@ -3,7 +3,7 @@ import { Database } from "@/types/db"
 
 type SupabaseSchema = Database;
 
-let SupabaseAdminClient: ReturnType<typeof createClient<SupabaseSchema>> | null = null;
+let SupabaseAdminClient: SupabaseClient<SupabaseSchema> | null = null;
 
 export function getSupabaseAdminClient() : SupabaseClient<SupabaseSchema> {
     if (SupabaseAdminClient) {
