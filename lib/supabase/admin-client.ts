@@ -3,11 +3,11 @@ import { Database } from "@/types/db"
 
 type SupabaseSchema = Database;
 
-let SupabaseAdminClient: ReturnType<typeof createClient<SupabaseSchema>> | null = null;
+let supabaseAdminClient: ReturnType<typeof createClient<SupabaseSchema>> | null = null;
 
 export function getSupabaseAdminClient() : SupabaseClient<SupabaseSchema> {
-    if (SupabaseAdminClient) {
-        return SupabaseAdminClient;
+    if (supabaseAdminClient) {
+        return supabaseAdminClient;
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -17,6 +17,6 @@ export function getSupabaseAdminClient() : SupabaseClient<SupabaseSchema> {
         throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
     }
 
-    SupabaseAdminClient = createClient<SupabaseSchema>(supabaseUrl, supabaseServiceRoleKey);
-    return SupabaseAdminClient;
+    supabaseAdminClient = createClient<SupabaseSchema>(supabaseUrl, supabaseServiceRoleKey);
+    return supabaseAdminClient;
 }
