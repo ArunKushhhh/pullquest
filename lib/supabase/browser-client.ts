@@ -1,8 +1,9 @@
 "use client"
+import { Database } from "@/types/db";
 import { createBrowserClient } from "@supabase/ssr"
 import type { SupabaseClient } from "@supabase/supabase-js"
 
-type SupabaseSchema = Record<string, never>;
+type SupabaseSchema = Database;
 
 let client: SupabaseClient<SupabaseSchema> | null = null;
 
