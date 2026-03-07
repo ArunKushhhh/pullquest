@@ -14,7 +14,7 @@ async function getOrgById(id: string) {
 async function getOrgByGithubId(githubId: string) {
     const supabase = await createSupabaseServerClient();
 
-    const { data, error } = await supabase.from("organizations").select("*").eq("github_id", githubId).single();
+    const { data, error } = await supabase.from("organizations").select("*").eq("github_org_id", githubId).single();
 
     if (error) {
         throw new Error("Error getting organization: " + error.message);
@@ -36,7 +36,7 @@ async function getOrgMembers(orgId: string) {
 async function getOrgRepos(orgId: string) {
     const supabase = await createSupabaseServerClient();
 
-    const { data, error } = await supabase.from("repositories").select("*").eq("github_org_id", orgId);
+    const { data, error } = await supabase.from("repositories").select("*").eq("org_id", orgId);
 
     if (error) {
         throw new Error("Error getting organization repos: " + error.message);

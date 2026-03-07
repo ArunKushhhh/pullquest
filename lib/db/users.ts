@@ -28,7 +28,7 @@ async function getUserByGithubId(id: string) {
 async function updateUserProfileId(id: string, data: { username?: string; avatar_url?: string; }) {
     const supabase = getSupabaseAdminClient();
 
-    const { data: updatedUser, error } = await supabase.from("users").update(data).eq("id", id).single();
+    const { data: updatedUser, error } = await supabase.from("users").update(data).eq("id", id).select().single();
 
     if (error) {
         throw new Error("Error updating user: " + error.message);
