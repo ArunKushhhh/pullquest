@@ -279,6 +279,38 @@ export type Database = {
           },
         ]
       }
+      tiers: {
+        Row: {
+          base_coins: number
+          drop_to: string | null
+          max_xp: number | null
+          min_xp: number
+          name: string
+        }
+        Insert: {
+          base_coins: number
+          drop_to?: string | null
+          max_xp?: number | null
+          min_xp: number
+          name: string
+        }
+        Update: {
+          base_coins?: number
+          drop_to?: string | null
+          max_xp?: number | null
+          min_xp?: number
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tiers_drop_to_fkey"
+            columns: ["drop_to"]
+            isOneToOne: false
+            referencedRelation: "tiers"
+            referencedColumns: ["name"]
+          },
+        ]
+      }
       treasury_transactions: {
         Row: {
           amount: number
@@ -398,6 +430,7 @@ export type Database = {
         Args: { p_user_id: string; p_xp: number }
         Returns: undefined
       }
+      get_tier_from_xp: { Args: { p_xp: number }; Returns: string }
       reset_act: { Args: never; Returns: undefined }
       resolve_pull_request: {
         Args: { p_outcome: string; p_pr_id: string; p_xp?: number }
@@ -407,6 +440,7 @@ export type Database = {
         Args: { p_issue_id: string; p_user_id: string }
         Returns: undefined
       }
+      tier_midpoint: { Args: { p_tier: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never
