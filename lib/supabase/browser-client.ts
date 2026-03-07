@@ -1,5 +1,5 @@
 "use client"
-import { Database } from "@/types/db";
+import type { Database } from "@/types/db";
 import { createBrowserClient } from "@supabase/ssr"
 import type { SupabaseClient } from "@supabase/supabase-js"
 

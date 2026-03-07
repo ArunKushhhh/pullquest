@@ -1,9 +1,9 @@
 import {createClient, SupabaseClient} from "@supabase/supabase-js"
-import { Database } from "@/types/db"
+import type { Database } from "@/types/db"
 
 type SupabaseSchema = Database;
 
-let supabaseAdminClient: ReturnType<typeof createClient<SupabaseSchema>> | null = null;
+let SupabaseAdminClient: SupabaseClient<SupabaseSchema> | null = null;
 
 export function getSupabaseAdminClient() : SupabaseClient<SupabaseSchema> {
     if (supabaseAdminClient) {
