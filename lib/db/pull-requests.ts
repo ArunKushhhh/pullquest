@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from "../supabase/server-client";
 
-async function getPRByUserId(userId: string) {
+async function getPRsByUserId(userId: string) {
     const supabase = await createSupabaseServerClient();
 
     const { data, error } = await supabase.from("pull_requests").select("*, issues(*)").eq("user_id", userId);
@@ -22,7 +22,7 @@ async function getPRByGithubId(githubId: string) {
     return data;
 }
 
-async function getPRByIssueId(issueId: string) {
+async function getPRsByIssueId(issueId: string) {
     const supabase = await createSupabaseServerClient();
 
     const { data, error } = await supabase.from("pull_requests").select("*").eq("issue_id", issueId);
@@ -33,4 +33,4 @@ async function getPRByIssueId(issueId: string) {
     return data;
 }
 
-export { getPRByGithubId, getPRByUserId, getPRByIssueId };
+export { getPRByGithubId, getPRsByUserId, getPRsByIssueId };
