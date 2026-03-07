@@ -1,11 +1,11 @@
-import {createClient, SupabaseClient} from "@supabase/supabase-js"
-import type { Database } from "@/types/db"
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/db";
 
 type SupabaseSchema = Database;
 
-let SupabaseAdminClient: SupabaseClient<SupabaseSchema> | null = null;
+let supabaseAdminClient: SupabaseClient<SupabaseSchema> | null = null;
 
-export function getSupabaseAdminClient() : SupabaseClient<SupabaseSchema> {
+export function getSupabaseAdminClient(): SupabaseClient<SupabaseSchema> {
     if (supabaseAdminClient) {
         return supabaseAdminClient;
     }

@@ -1,14 +1,14 @@
-import { getUser } from "@/actions/auth/get-user"
-import { signInWithGithub } from "@/actions/auth/sign-in"
-import { Button } from "@/components/ui/button"
-import { Github } from "lucide-react"
-import { redirect } from "next/navigation"
+import { getUser } from "@/actions/auth/get-user";
+import { signInWithGithub } from "@/actions/auth/sign-in";
+import { Button } from "@/components/ui/button";
+import { Github } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-    const user = await getUser()
+    const user = await getUser();
 
     if (user) {
-        redirect("/dashboard")
+        redirect("/dashboard");
     }
 
     return (
@@ -28,5 +28,5 @@ export default async function LoginPage() {
                 </form>
             </div>
         </div>
-    )
+    );
 }
