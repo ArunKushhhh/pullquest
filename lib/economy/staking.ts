@@ -6,7 +6,7 @@ export async function stakeCoinsOnIssue(userId: string, issueId: string): Promis
     try {
         const supabase = getSupabaseAdminClient();
 
-        const { data, error } = await supabase.rpc("stake_coins", { p_user_id: userId, p_issue_id: issueId });
+        const { error } = await supabase.rpc("stake_coins", { p_user_id: userId, p_issue_id: issueId });
 
         if (error) {
             return { success: false, error: error.message };
