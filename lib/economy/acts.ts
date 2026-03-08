@@ -5,7 +5,7 @@ type ActionResult = { success: true; } | { success: false, error: string; };
 export async function resetCurrentAct(): Promise<ActionResult> {
     try {
         const supabase = getSupabaseAdminClient();
-        const { data, error } = await supabase.rpc("reset_act");
+        const { error } = await supabase.rpc("reset_act");
 
         if (error) {
             return { success: false, error: error.message };
