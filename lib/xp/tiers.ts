@@ -1,6 +1,6 @@
 export const TIER_ORDER = [
     "initiator",
-    "commiter",
+    "committer",
     "contributor",
     "merge_master",
     "architect",
