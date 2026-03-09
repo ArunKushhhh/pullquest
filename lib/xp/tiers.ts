@@ -30,8 +30,8 @@ export function getTrustMultiplier(stars: number, memberCount: number): number {
 }
 
 export function getDifficultyCap(difficulty: string): number {
-    if (difficulty in DIFFICULTY_CAPS) {
-        return DIFFICULTY_CAPS[difficulty];
+    if (Object.hasOwn(DIFFICULTY_CAPS, difficulty)) {
+        return DIFFICULTY_CAPS[difficulty as keyof typeof DIFFICULTY_CAPS];
     }
     throw new Error("Invalid difficulty");
 }

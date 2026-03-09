@@ -6,9 +6,9 @@ import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 export async function fetchActiveIssues() {
     const supabase = await createSupabaseServerClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-    if (!user) {
+    if (!user || error) {
         throw new Error("User not authenticated");
     }
 
